@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ঢাকা-১৩ ওয়ার্ড নির্বাচন - লাইভ ফলাফল</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1250px; margin: auto; }
+        h1, h2 { text-align: center; color: #2c3e50; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media(max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .summary-box { display: flex; justify-content: space-around; background: #2980b9; color: white; padding: 15px; border-radius: 8px; text-align: center; flex-wrap: wrap; gap: 10px; }
+        .summary-box div { background: rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; min-width: 120px; }
+        .summary-box h3 { margin: 0; font-size: 20px; }
+        form label { display: block; margin-top: 10px; font-weight: bold; }
+        form select, form input { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        form button { background: #27ae60; color: white; border: none; padding: 10px 15px; margin-top: 15px; width: 100%; border-radius: 4px; font-size: 16px; cursor: pointer; }
+        form button:hover { background: #219653; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f8f9fa; }
+        .badge-pending { color: #e67e22; font-weight: bold; }
+        .badge-submitted { color: #27ae60; font-weight: bold; }
+        img.thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🗳️ ঢাকা-১৩ ওয়ার্ড নির্বাচন লাইভ ফলাফল ড্যাশবোর্ড</h1>
+
+    <!-- সামারি স্কোরবোর্ড -->
+    <div class="summary-box" id="summaryBox">
+        <!-- ডাইনামিক সামারি দেখাবে -->
+    </div>
+
+    <div class="grid-2" style="margin-top: 20px;">
+        <!-- বাম পাশ: পোর্টাল ও ফর্মসমূহ -->
+        <div>
+            <div class="card">
+                <h2>📝 প্রিজাইডিং অফিসার পোর্টাল</h2>
+                <form id="resultForm">
+                    <label for="centerSelect">কেন্দ্র নির্বাচন করুন:</label>
+                    <select id="centerSelect" required></select>
+
+                    <label for="agentMobile">অনুমোদিত মোবাইল নম্বর:</label>
+                    <input type="text" id="agentMobile" required placeholder="যেমন: xxxxxxxxxxx">
+
+                    <div id="candidateInputsContainer">
+                        <!-- ডাইনামিক প্রার্থীর ভোট ইনপুট ফিল্ড -->
+                    </div>
+
+                    <label for="resultImage">রেজাল্ট শীটের ছবি (ফটো আপলোড):</label>
+                    <input type="file" id="resultImage" accept="image/*" required>
+
+                    <button type="submit">ফলাফল জমা দিন (Submit)</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>➕ নতুন প্রার্থী যুক্ত করুন</h2>
+                <form id="addCandidateForm">
+                    <label for="candAdminMobile">অনুমোদিত এডমিন মোবাইল নম্বর:</label>
+                    <input type="text" id="candAdminMobile" required placeholder="যেমন: xxxxxxxxxxx">
+
+                    <label for="newCandidateName">প্রার্থীর নাম:</label>
+                    <input type="text" id="newCandidateName" required placeholder="যেমন: নতুন প্রার্থী">
+                    
+                    <label for="newCandidateSymbol">প্রতীক:</label>
+                    <input type="text" id="newCandidateSymbol" required placeholder="যেমন: আপেল">
+
+                    <button type="submit" style="background: #2980b9;">প্রার্থী যোগ করুন</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>🏢 নতুন কেন্দ্র যুক্ত করুন</h2>
+                <form id="addCenterForm">
+                    <label for="centerAdminMobile">অনুমোদিত এডমিন মোবাইল নম্বর:</label>
+                    <input type="text" id="centerAdminMobile" required placeholder="যেমন: xxxxxxxxxxx">
+
+                    <label for="newCenterName">কেন্দ্রের নাম ও বিবরণ:</label>
+                    <input type="text" id="newCenterName" required placeholder="যেমন: কেন্দ্র ৫৭: নতুন স্কুল ভবন">
+
+                    <button type="submit" style="background: #8e44ad;">কেন্দ্র যুক্ত করুন</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ডান পাশ: লাইভ সেন্টারের তালিকা -->
+        <div class="card">
+            <h2>📊 লাইভ কেন্দ্রভিত্তিক ফলাফল</h2>
+            <div style="max-height: 750px; overflow-y: auto;">
+                <table id="resultTable">
+                    <thead>
+                        <tr id="tableHeaderRow">
+                            <th>কেন্দ্র</th>
+                        </tr>
+                    </thead>
+                    <tbody id="centerTableBody">
+                        <!-- ডাইনামিক ডাটা -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
+
+    let globalCandidates = [];
+    let globalCenters = [];
+
+    async function loadData() {
+        const res = await fetch('/api/data');
+        const data = await res.json();
+        globalCandidates = data.candidates;
+        globalCenters = data.centers;
+        updateUI();
+    }
+
+    function updateUI() {
+        populateDropdown(globalCenters);
+        populateCandidateInputs(globalCandidates);
+        renderTableAndSummary(globalCenters, globalCandidates);
+    }
+
+    function populateDropdown(centers) {
+        const select = document.getElementById('centerSelect');
+        select.innerHTML = '<option value="">-- কেন্দ্র সিলেক্ট করুন --</option>';
+        centers.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name + (c.status === 'Submitted' ? ' (জমা হয়েছে)' : '');
+            select.appendChild(opt);
+        });
+    }
+
+    function populateCandidateInputs(candidates) {
+        const container = document.getElementById('candidateInputsContainer');
+        container.innerHTML = '';
+        candidates.forEach((c, index) => {
+            container.innerHTML += `
+                <label>${index + 1}. ${c.name} (${c.symbol}) প্রাপ্ত ভোট:</label>
+                <input type="number" name="candidate_${c.id}" min="0" required placeholder="ভোট সংখ্যা দিন">
+            `;
+        });
+    }
+
+    function renderTableAndSummary(centers, candidates) {
+        let totals = {};
+        candidates.forEach(c => totals[c.id] = 0);
+        let submittedCount = 0;
+
+        centers.forEach(c => {
+            if (c.status === 'Submitted') {
+                submittedCount++;
+                candidates.forEach(cand => {
+                    totals[cand.id] += (c.votes && c.votes[cand.id]) || 0;
+                });
+            }
+        });
+
+        // সামারি বক্স আপডেট
+        let summaryHtml = `<div><p>ফলাফল প্রাপ্ত কেন্দ্র</p><h3>${submittedCount} / ${centers.length}</h3></div>`;
+        candidates.forEach(c => {
+            summaryHtml += `<div><p>${c.name} (${c.symbol})</p><h3>${totals[c.id]}</h3></div>`;
+        });
+        document.getElementById('summaryBox').innerHTML = summaryHtml;
+
+        // টেবিল হেডার তৈরি
+        let headerHtml = `<th>কেন্দ্র</th>`;
+        candidates.forEach(c => {
+            headerHtml += `<th>${c.name}<br><small>(${c.symbol})</small></th>`;
+        });
+        headerHtml += `<th>অবস্থা</th><th>ছবি</th><th>এজেন্ট নম্বর</th>`;
+        document.getElementById('tableHeaderRow').innerHTML = headerHtml;
+
+        // টেবিল বডি তৈরি
+        let tableHtml = '';
+        centers.forEach(c => {
+            tableHtml += `<tr><td>${c.name}</td>`;
+            candidates.forEach(cand => {
+                let v = (c.votes && c.votes[cand.id]) || 0;
+                tableHtml += `<td><b>${v}</b></td>`;
+            });
+            tableHtml += `
+                <td>${c.status === 'Submitted' ? '<span class="badge-submitted">প্রাপ্ত</span>' : '<span class="badge-pending">অপেক্ষমাণ</span>'}</td>
+                <td>${c.image ? `<a href="${c.image}" target="_blank"><img src="${c.image}" class="thumb"></a>` : 'নেই'}</td>
+                <td><small>${c.submittedBy || '-'}</small></td>
+            </tr>`;
+        });
+        document.getElementById('centerTableBody').innerHTML = tableHtml;
+    }
+
+    // ফলাফল সাবমিট ফর্ম
+    document.getElementById('resultForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('centerId', document.getElementById('centerSelect').value);
+        formData.append('mobileNumber', document.getElementById('agentMobile').value);
+        formData.append('resultImage', document.getElementById('resultImage').files[0]);
+
+        globalCandidates.forEach(c => {
+            const val = document.querySelector(`[name="candidate_${c.id}"]`).value;
+            formData.append(`candidate_${c.id}`, val);
+        });
+
+        const res = await fetch('/api/submit', { method: 'POST', body: formData });
+        const result = await res.json();
+        alert(result.message);
+        if(result.success) {
+            document.getElementById('resultForm').reset();
+            loadData();
+        }
+    });
+
+    // সিকিউরড নতুন প্রার্থী যোগ করার ফর্ম
+    document.getElementById('addCandidateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const adminMobile = document.getElementById('candAdminMobile').value;
+        const name = document.getElementById('newCandidateName').value;
+        const symbol = document.getElementById('newCandidateSymbol').value;
+
+        const res = await fetch('/api/add-candidate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminMobile, name, symbol })
+        });
+        const result = await res.json();
+        alert(result.message);
+        if (result.success) {
+            document.getElementById('addCandidateForm').reset();
+            loadData();
+        }
+    });
+
+    // সিকিউরড নতুন কেন্দ্র যোগ করার ফর্ম
+    document.getElementById('addCenterForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const adminMobile = document.getElementById('centerAdminMobile').value;
+        const centerName = document.getElementById('newCenterName').value;
+
+        const res = await fetch('/api/add-center', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminMobile, centerName })
+        });
+        const result = await res.json();
+        alert(result.message);
+        if (result.success) {
+            document.getElementById('addCenterForm').reset();
+            loadData();
+        }
+    });
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'UPDATE') {
+            globalCandidates = data.candidates;
+            globalCenters = data.centers;
+            updateUI();
+        }
+    };
+
+    loadData();
+</script>
+</body>
+</html>
